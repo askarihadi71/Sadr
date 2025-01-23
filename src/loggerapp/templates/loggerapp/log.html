@@ -1,0 +1,37 @@
+{% extends 'base/full_base.html' %}
+{% load static %}
+
+{% block content %}
+
+
+<div class="w-full h-full pt-4 max-h-full flex flex-wrap dark:text-white overflow-scroll" style="direction: ltr;">
+    <div class="w-full h-16">
+        <button class="btn-success fa fa-long-arrow-left" onclick="window.history.back();">Back</button>
+
+    </div>
+
+    <div class="w-full flex gap-5 border-b border-b-zinc-800 dark:border-b-white py-4">
+        <span>Time</span>
+        <span>{{object.time}}</span>
+    </div>
+
+
+    <div class="w-full flex gap-5 border-b border-b-zinc-800 dark:border-b-white py-4">
+        <span>Level</span>
+        <span>{{object.level}}</span>
+    </div>
+
+    <div class="w-full flex gap-5 border-b border-b-zinc-800 dark:border-b-white py-4">
+        <span>Message:</span>
+        <span>{{object.message}}</span>
+    </div>
+
+</div>
+
+
+{% endblock %}
+
+
+{% block scripts %}
+    
+{% endblock %}

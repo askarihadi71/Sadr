@@ -1,0 +1,52 @@
+<div id="user_search_modal" class="modal font-Sahel z-50 fade-in3 hidden">
+    <div class="modal-content flex flex-col modal-md max-h-full overflow-hidden pb-14 relative">
+        <div class="modal-header tracking-widest mb-2">
+            <h2 id="user_search_modal_title" class="mb-3">
+                انتخاب کاربر
+            </h2>
+        </div>
+
+        <div class="w-full h-full max-h-full overflow-y-auto flex flex-col items-start relative">
+           <div class="relative overflow-x-auto  h-full w-full">
+            <div class="relative border border-zinc-800 dark:border-white/50 py-1 px-2 sm:py-2 sm:px-4 rounded-lg">
+                <input id="search_user_input" placeholder="Search User..." name="search" type="text" class="input py-1"
+                    value="{{ request.GET.search }}">
+                <button id="search_user_btn"
+                    class="absolute left-3 fa fa-search hover:text-green-500 text-zinc-800 dark:text-white px-2 py-2"></button>
+            </div>
+            <table class="bg-opacity-0 w-full max-h-full shadow-md  rounded-lg">
+                <thead class="sticky top-0 bg-gray-300 dark:bg-zinc-700 z-20">
+                    <tr>
+                        <th class="table-header-td">نام</th>
+                        <th class="table-header-td">نام کاربری</th>
+                        <th class="table-header-td">شماره تماس</th>
+                        <th class="table-header-td">ایمیل</th>
+                        <th class="table-header-td"></th>
+                    </tr>
+                </thead>
+                <tbody id="set_owner_modal_table_body" class="divide-y divide-zinc-800 dark:divide-zinc-400">
+                    <tr class="table-body-tr">
+                        <td class="table-body-td bg-green-400 dark:bg-green-400"></td>
+                        <td class="table-body-td"></td>
+                        <td class="table-body-td">loading data </td>
+                        <td class="table-body-td flex items-center">
+                        </td>
+                    </tr>
+                </tbody>
+            </table>
+        </div>
+        </div>
+
+
+        <div class="modal-footer gap-3">
+            <button id="user_search_modal_cancel" data-modal="user_search_modal"
+                class="closeModalBtn bg-red-400 px-4 py-1 font-Sahel" onclick="close_modal('user_search_modal')">Close</button>
+                <button id="user_search_modal_apply"
+                class="closeModalBtn bg-green-500 px-4 py-1" onclick="close_modal('user_search_modal')">Confirm</button>
+        </div>
+    </div>
+</div>
+
+<script>
+
+</script>

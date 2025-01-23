@@ -1,0 +1,75 @@
+{% extends "user/base.html" %}
+{% load i18n %}
+{% load allauth %}
+{% block head_title %}
+    {% trans "Email Address" %}
+{% endblock head_title %}
+{% block content %}
+   
+    <h1 class="text-xl"> Email Address</h1>
+    {% if not emailaddresses %}
+        {% include "account/snippets/warn_no_email.html" %}
+    {% endif %}
+    {% url 'account_email' as action_url %}
+
+    <form action="{{action_url}}" method="post" class="mt-4 font-sans"> {% csrf_token %}
+
+        {% if current_emailaddress %}
+            <div class="flex flex-col gap-2">
+                <label for="current_email" class="float-left dark:text-white text-gray-800 text-sm">Current email</label>
+                <input type="email" class="input" id="current_email" disabled=True value={{current_emailaddress.email}} >
+            </div>
+        {% endif %}
+
+        {% if new_emailaddress %}
+            <div class="flex flex-col gap-2">
+                <label for="current_email" class="float-left dark:text-white text-gray-800 text-sm">
+                    {% if not current_emailaddress %}
+                        Current email
+                    {% else %}
+                        Changing to
+                    {% endif %}
+                </label>
+                <input  id="new_email" class="input" value={{new_emailaddress.email}} disabled=True type="email" >
+
+                <p class="bg-orange-500">Your email address is still pending verification.</p>
+
+                <button form="pending-email" type="submit" name="action_send" class="btn-green">Re-send Verification</button>
+
+
+                {% if current_emailaddress %}
+                    <button form="pending-email" type="submit" name="action_remove" class="btn-red">Cancel Change</button>
+                {% endif %}
+            </div>
+        {% endif %}
+
+
+        <div class="flex flex-col gap-2">
+            <label for="current_email" class="float-left dark:text-white text-gray-800 text-sm">Change to</label>
+            <input id={{form.email.auto_id}} class="input" name="email" value={% if form.email.value %}{{form.email.value}}{% else %}""{% endif %}type="email">
+
+            {% for error in form.email.errors %}
+                <div class="text-red-600 py-2 px-2">
+                    <span>{{ message }}</span>
+                </div>
+            {% endfor %}
+
+            <button name="action_add" type="submit" class="btn-orange">Change Email</button>
+        </div>
+    </form>
+
+    {% if new_emailaddress %}
+        <form style="display: none"
+              id="pending-email"
+              method="post"
+              action="{% url 'account_email' %}">
+            {% csrf_token %}
+            <input type="hidden" name="email" value="{{ new_emailaddress.email }}">
+        </form>
+    {% endif %}
+
+    <div class="mt-10 ml-6 font-sans">
+        Back to <a class="link" href="{% url 'traceapp:main_template_view' %}">OWL Trace App</a>
+    </div>
+
+{% endblock content %}

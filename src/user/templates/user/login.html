@@ -1,0 +1,77 @@
+
+{% extends "base/base.html" %}
+{% load static %}
+
+{% block content %}
+<form method="post" class="flex flex-col pt-2" >{% csrf_token %}
+<main>
+  <div class="mx-auto max-w-screen-2xl p-4 md:p-6 2xl:p-10">
+    <!-- ====== Forms Section Start -->
+    <div
+      class="rounded-sm border border-stroke bg-white shadow-default dark:border-strokedark dark:bg-boxdark"
+    >
+      <div class="flex flex-wrap items-center">
+        <div class="hidden w-full xl:block xl:w-1/2">
+          <div class="px-26 py-17.5 text-center">
+           
+
+            <p class="text-xl 2xl:px-20">
+              صدر نت 
+            </p>
+
+            <span class="mt-15 inline-block">
+              <img
+                src="{% static 'images/illustration/illustration-03.svg' %}"
+                alt="illustration"
+              />
+            </span>
+          </div>
+        </div>
+        <div
+          class="w-full border-stroke dark:border-strokedark xl:w-1/2 xl:border-l-2"
+        >
+          <div class="w-full p-4 sm:p-12.5 xl:p-17.5">
+            <h2
+              class="mb-9 text-2xl font-bold text-black dark:text-white sm:text-title-xl2"
+            >
+              ورود به سامانه
+            </h2>
+
+            <form method="post">{% csrf_token %}
+              <div class="mb-4">
+                <label
+                  class="mb-2.5 block font-medium text-black dark:text-white">شماره همراه</label>
+                <div class="relative">
+                  <input
+                    type="text"
+                    name="username"
+                    placeholder="شماره همراه خود را وارد کنید"
+                    class="w-full rounded-lg border border-stroke bg-transparent py-4 px-6 outline-none focus:border-primary focus-visible:shadow-none dark:border-form-strokedark dark:bg-form-input dark:focus:border-primary"
+                  />
+                  <svg class="absolute w-8 h-8 top-4 left-2" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="size-6">
+                    <path stroke-linecap="round" stroke-linejoin="round" d="M2.25 6.75c0 8.284 6.716 15 15 15h2.25a2.25 2.25 0 0 0 2.25-2.25v-1.372c0-.516-.351-.966-.852-1.091l-4.423-1.106c-.44-.11-.902.055-1.173.417l-.97 1.293c-.282.376-.769.542-1.21.38a12.035 12.035 0 0 1-7.143-7.143c-.162-.441.004-.928.38-1.21l1.293-.97c.363-.271.527-.734.417-1.173L6.963 3.102a1.125 1.125 0 0 0-1.091-.852H4.5A2.25 2.25 0 0 0 2.25 4.5v2.25Z" />
+                  </svg>
+                  </span>
+                </div>
+              </div>
+
+
+              <div class="mb-5">
+                <input
+                  type="submit"
+                  value="ادامه"
+                  class="w-full cursor-pointer rounded-lg border border-primary bg-primary p-4 font-medium text-white transition hover:bg-opacity-90"
+                />
+              </div>
+            </form>
+          </div>
+        </div>
+      </div>
+    </div>
+    <!-- ====== Forms Section End -->
+  </div>
+</main>
+
+
+
+{% endblock content %}

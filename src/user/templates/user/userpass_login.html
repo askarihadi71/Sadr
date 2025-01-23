@@ -1,0 +1,99 @@
+{% load static %}
+
+<!DOCTYPE html>
+<html lang="en" dir="rtl">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>
+        {% block document_title %}
+        صدر نت
+        {% endblock document_title %}
+    </title>
+    <link rel="icon" href="{% static 'favicon.ico' %}">
+
+    <link rel="stylesheet" href="{% static 'plugins/toastr/toastr.css' %}"/>
+    <script src="{% static 'plugins/toastr/toastr.min.js' %}"></script>
+    <link href="{% static 'app/style.css' %}" rel="stylesheet">
+    <style>
+        @keyframes fadeIn {
+          from { opacity: 0; transform: translateY(-20px); }
+          to { opacity: 1; transform: translateY(0); }
+        }
+        .fade-in {
+          animation: fadeIn 1s ease-out;
+        }
+    </style>
+    <style>
+        body {
+            /* background-image: url("{% static 'images/bg1.jpg' %}"); */
+            background-size: cover;
+            background-repeat: no-repeat; 
+            background-position: center;
+            height: 100vh;
+            margin: 0;
+        }
+    </style>
+</head>
+<body class="h-full w-full min-h-screen bg-gray-200 flex items-center justify-center bg-no-repeat bg-cover bg-[center_top]">
+    {% if form.non_field_errors %}
+        {% for error in form.non_field_errors %}
+            <input class="errors" type="hidden" value="{{ error }}">
+        {% endfor %}
+    {% endif %}
+    {% include "base/django_messages.html" %}
+    <div class="relative flex flex-col sm:flex-row rounded-xl bg-white shadow-xl w-[90%] md:w-[650px] lg:w-[880px] h-96 max-h-screen max-w-full py-4 px-2 pb-6 fade-in overflow-y-auto overflow-x-hidden sm:overflow-x-visible">
+        <div class="order-2 sm:order-1 flex flex-wrap justify-center items-center w-full sm:w-[47%] h-full sm:border-l-2 border-emerald-700/35 p-2 gap-4 px-6">
+            
+            <form method="post" class="w-[90%]">
+                {% csrf_token %}
+                <div class="relative flex flex-col gap-2 font-Sahel">
+                    <label class="font-Sahel w-full" for=""> شماره همراه</label>
+                    
+                    <input class="input" type="text" name="username" autocapitalize="none" autocomplete="username" maxlength="10" required="" id="id_username">
+
+                    <div id="usericon" class="absolute top-[31px] left-0 p-1 text-gray-500">
+                        <i class="fa fa-user fa-2x"></i>
+                    </div>
+
+
+                    <label class="font-Sahel w-full" for=""> رمز عبور</label>
+                    
+                    <input class="input" type="password" name="password" autocapitalize="none" autocomplete="password" required="" id="id_password">
+
+                    <div id="usericon" class="absolute top-[31px] left-0 p-1 text-gray-500">
+                        <i class="fa fa-lock fa-2x"></i>
+                    </div>
+
+
+                </div>
+                <button class="btn py-2 shadow-md shadow-zinc-300 bg-emerald-600 hover:bg-emerald-500 text-white mt-4 w-full font-SahelBold md:text-lg">ادامه</button>
+            </form>
+        </div>
+
+
+        <div class="order-1 w-full sm:w-[53%] h-full flex flex-col items-center relative justify-center">
+            <div class="w-full flex flex-col sm:flex-row items-end sm:justify-center">
+                <a href="#"><img class="md:w-[220px]  w-[170px] rounded-lg" src="{% static 'images/login-icon3.jpg' %}" alt=""></a>
+            </div>
+            <div class="order-2 absolute flex flex-col justify-center items-center h-full sm:static top-1 right-2">
+                <p class="font-SahelBold font-bold mt-5 md:text-[14px] lg:text-xl text-center">صدر نت</p>
+            </div>
+        </div>
+    </div>
+
+
+<script>
+    document.getElementById("id_username").addEventListener("focus", ()=>{
+        document.getElementById("usericon").classList.remove("text-gray-500")
+        document.getElementById("usericon").classList.add("text-green-600")
+    })
+    document.getElementById("id_username").addEventListener("focusout",()=>{
+        document.getElementById("usericon").classList.add("text-gray-500")
+        document.getElementById("usericon").classList.remove("text-green-600")
+    })
+</script>
+
+    
+</body>
+</html>

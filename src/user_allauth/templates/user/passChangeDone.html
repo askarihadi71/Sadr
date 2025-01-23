@@ -1,0 +1,18 @@
+{% extends "user/base.html" %}
+{% load allauth i18n %}
+{% load form_tags %}
+{% block head_title %}
+    {% trans "Change Password" %}
+{% endblock head_title %}
+{% block content %}
+    <h1 class="text-xl font-PlayfairDisplayBold font-bold text-orange-500 py-4">
+        {% trans "Change Password" %}
+    </h1>
+
+    <p class="text-xl font-san">Password changed!</p>
+    
+
+    <div class="mt-5 ml-6 font-sans">
+        Back to <a class="link" href="{% url 'traceapp:main_template_view' %}">OWL Trace App</a>
+    </div>
+{% endblock content %}

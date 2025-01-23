@@ -1,0 +1,107 @@
+{% extends "base/base.html" %}
+{% load static %}
+
+{% block content %}
+<input type="hidden" id="email_otp_url" data-url="{% url 'user:otp_email_request' %}">
+<form method="post" class="flex flex-col pt-2" >{% csrf_token %}
+<main>
+  <div class="mx-auto max-w-screen-2xl p-4 md:p-6 2xl:p-10">
+    <!-- ====== Forms Section Start -->
+    <div
+      class="rounded-sm border border-stroke bg-white shadow-default dark:border-strokedark dark:bg-boxdark"
+    >
+      <div class="flex flex-wrap items-center">
+        <div class="hidden w-full xl:block xl:w-1/2">
+          <div class="px-26 py-17.5 text-center">
+           
+
+            <p class="text-xl 2xl:px-20">
+              صدر نت 
+            </p>
+
+            <span class="mt-15 inline-block">
+              <img
+                src="{% static 'images/illustration/illustration-03.svg' %}"
+                alt="illustration"
+              />
+            </span>
+          </div>
+        </div>
+        <div
+          class="w-full border-stroke dark:border-strokedark xl:w-1/2 xl:border-l-2"
+        >
+          <div class="w-full p-4 sm:p-12.5 xl:p-17.5">
+            <h2
+              class="mb-9 text-2xl font-bold text-black dark:text-white sm:text-title-xl2"
+            >
+              ورود به سامانه
+            </h2>
+
+            <form method="post">{% csrf_token %}
+              <div class="mb-4">
+                <label
+                  class="mb-2.5 block font-medium text-black dark:text-white">کد ورود</label>
+                <div class="relative">
+                  <input
+                    type="text"
+                    name="otp_code"
+                    id="id_otp_code"
+                    placeholder="کد ارسالی را وارد کنید"
+                    class="w-full rounded-lg border border-stroke bg-transparent py-4 px-6 outline-none focus:border-primary focus-visible:shadow-none dark:border-form-strokedark dark:bg-form-input dark:focus:border-primary"
+                  />
+                  <svg class="absolute w-8 h-8 top-4 left-2" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="size-6">
+                    <path stroke-linecap="round" stroke-linejoin="round" d="M16.5 10.5V6.75a4.5 4.5 0 1 0-9 0v3.75m-.75 11.25h10.5a2.25 2.25 0 0 0 2.25-2.25v-6.75a2.25 2.25 0 0 0-2.25-2.25H6.75a2.25 2.25 0 0 0-2.25 2.25v6.75a2.25 2.25 0 0 0 2.25 2.25Z" />
+                  </svg>
+                  
+                  </span>
+                </div>
+              </div>
+
+
+              <div class="mb-5">
+                <input
+                  type="submit"
+                  value="ورود"
+                  class="w-full cursor-pointer rounded-lg border border-primary bg-primary p-4 font-medium text-white transition hover:bg-opacity-90"
+                />
+              </div>
+            </form>
+
+            <div class="font-Sahel mt-4 flex flex-col gap-3 flex-wrap text-sm">
+              <a  class="underline text-sm" href="{% url 'user:username_login' %}">تصحیح اطلاعات و درخواست مجدد کد</a>
+              <p>کد را دریافت نمی کنید؟ <a class="link text-sm cursor-pointer" id="request-email-otp">از طریق ایمیل امتحان کنید</a>
+              </p>
+          </div>
+          </div>
+        </div>
+      </div>
+    </div>
+    <!-- ====== Forms Section End -->
+  </div>
+</main>
+
+{% endblock content %}
+
+{% block extra_js %}
+    <script>
+      document.getElementById("id_otp_code").addEventListener("focus", ()=>{
+      document.getElementById("usericon").classList.remove("text-gray-500")
+      document.getElementById("usericon").classList.add("text-green-600")
+    })
+    document.getElementById("id_otp_code").addEventListener("focusout",()=>{
+      document.getElementById("usericon").classList.add("text-gray-500")
+      document.getElementById("usericon").classList.remove("text-green-600")
+    })
+    let email_otp_url =  window.location.origin + document.getElementById("email_otp_url").dataset.url
+   
+  document.getElementById("request-email-otp").addEventListener("click", ()=>{
+    post_method(email_otp_url).then(response => {
+        if (response.error) {
+            postMethodErrorHandler(response)
+        } else {
+            toastr.success(response.message)
+        }
+    })})
+    </script>
+
+{% endblock extra_js %}

@@ -1,0 +1,14 @@
+<div class="w-full xl:w-1/2">
+    <label class="mb-3 block text-sm font-medium text-black dark:text-white">
+      {{ label }} {% if require %}<span class="text-meta-1">*</span>{% endif %}
+    </label>
+    <select name="{{ name }}" class="w-full rounded border-[1.5px] border-stroke bg-transparent px-5 py-3 font-normal text-black outline-none transition focus:border-primary dark:border-form-strokedark dark:bg-form-input dark:text-white dark:focus:border-primary">
+      <option value="">Select {{ label }}</option>
+      {% for value, label in choices %}
+        <option value="{{ value }}" {% if value == selected_value %} selected {% endif %}>
+          {{ label }}
+        </option>
+      {% endfor %}
+    </select>
+  </div>
+  

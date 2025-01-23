@@ -1,0 +1,12 @@
+<div class="w-full">
+    {% if form.non_field_errors %}
+        <div class="text-red-600">
+            {{ form.non_field_errors }}
+        </div>
+    {% endif %}
+    {% if form.errors %}
+        <div class="text-red-600">
+            <span>{{ form.errors }}</span>
+        </div>
+    {% endif %}
+</div>

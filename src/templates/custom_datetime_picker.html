@@ -1,0 +1,29 @@
+
+<div class="w-full xl:w-1/2">
+  <label class="mb-3 block text-sm font-medium text-black dark:text-white">
+      {{ label }}{% if require %}<span class="text-meta-1">*</span>{% endif %}
+    </label>
+    <div class="flex">
+      <input type="text" id="{{ name }}" name="{{ name }}" placeholder="{{ placeholder }}" 
+           {% if value %} value="{{ value }}" {% endif %}
+           class="w-full rounded border-[1.5px] border-stroke bg-transparent px-5 py-3 font-normal text-black outline-none transition focus:border-primary dark:border-form-strokedark dark:bg-form-input dark:text-white dark:focus:border-primary" />
+      <button type="button" onclick="setNow('{{ name }}')" class="px-3 py-2 rounded bg-primary text-white" style="direction: ltr;">
+        Now
+      </button>
+    </div>
+  </div>
+  
+  <script>
+    document.addEventListener("DOMContentLoaded", function () {
+      flatpickr("#{{ name }}", {
+        enableTime: true,
+        dateFormat: "Y-m-d H:i",
+      });
+    });
+  
+    function setNow(inputId) {
+      const now = new Date();
+      const formattedDate = now.toISOString().slice(0, 16).replace('T', ' ');
+      document.getElementById(inputId).value = formattedDate;
+    }
+  </script>

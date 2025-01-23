@@ -1,0 +1,124 @@
+{% extends 'base/full_base.html' %}
+{% load static %}
+{% load jalali %}
+{% load pagination_tags %}
+{% load object_model %}
+{% block content %}
+
+
+<div class="w-full h-full pt-2 px-4 font-Sahel mx-auto flex flex-col">
+
+    <h1 class="text-xl dark:text-white text-center pb-4 font-bold tracking-widest">Logs List</h1>
+
+    <div class="h-14 w-full flex items-center gap-x-2 mb-3">
+        
+        <div class="relative border border-zinc-800 dark:border-white/50 py-2 px-4 rounded-lg">
+            <form method="get" action="{% url 'loggerapp:logs' %}" class="flex flex-wrap">
+
+                <label class="relative inline-flex items-center cursor-pointer ml-4">  
+                    <span class="text-zinc-800 dark:text-white ml-2 text-xs sm:text-sm">Special Logs</span>
+                    <input type="checkbox" name="SP" class="sr-only peer" {% if request.GET.SP %} checked {% endif %}  onchange="this.form.submit()"/>  
+                    <div class="w-10 h-6 bg-gray-400 rounded-full peer peer-checked:bg-blue-600 transition"></div>  
+                    <div class="dot absolute left-1 top-1 bg-white w-4 h-4 rounded-full transition peer-checked:translate-x-4"></div>  
+                </label>  
+
+                <label class="relative inline-flex items-center cursor-pointer ml-4">  
+                    <span class="text-zinc-800 dark:text-white ml-2 text-xs sm:text-sm">ERROR</span>
+                    <input type="checkbox" name="ERROR" class="sr-only peer" {% if request.GET.ERROR %} checked {% endif %}  onchange="this.form.submit()"/>  
+                    <div class="w-10 h-6 bg-gray-400 rounded-full peer peer-checked:bg-blue-600 transition"></div>  
+                    <div class="dot absolute left-1 top-1 bg-white w-4 h-4 rounded-full transition peer-checked:translate-x-4"></div>  
+                </label>  
+
+                <label class="relative inline-flex items-center cursor-pointer ml-4">  
+                    <span class="text-zinc-800 dark:text-white ml-2 text-xs sm:text-sm">WARNING</span>
+                    <input type="checkbox" name="WARNING" class="sr-only peer" {% if request.GET.WARNING %} checked {% endif %}  onchange="this.form.submit()"/>  
+                    <div class="w-10 h-6 bg-gray-400 rounded-full peer peer-checked:bg-blue-600 transition"></div>  
+                    <div class="dot absolute left-1 top-1 bg-white w-4 h-4 rounded-full transition peer-checked:translate-x-4"></div>  
+                </label>  
+
+                <label class="relative inline-flex items-center cursor-pointer ml-4">  
+                    <span class="text-zinc-800 dark:text-white ml-2 text-xs sm:text-sm">DEBUG</span>
+                    <input type="checkbox" name="DEBUG" class="sr-only peer" {% if request.GET.DEBUG %} checked {% endif %}  onchange="this.form.submit()"/>  
+                    <div class="w-10 h-6 bg-gray-400 rounded-full peer peer-checked:bg-blue-600 transition"></div>  
+                    <div class="dot absolute left-1 top-1 bg-white w-4 h-4 rounded-full transition peer-checked:translate-x-4"></div>  
+                </label>  
+
+                <label class="relative inline-flex items-center cursor-pointer ml-4">  
+                    <span class="text-zinc-800 dark:text-white ml-2">INFO</span>
+                    <input type="checkbox" name="INFO" class="sr-only peer" {% if request.GET.INFO %} checked {% endif %}  onchange="this.form.submit()"/>  
+                    <div class="w-10 h-6 bg-gray-400 rounded-full peer peer-checked:bg-blue-600 transition"></div>  
+                    <div class="dot absolute left-1 top-1 bg-white w-4 h-4 rounded-full transition peer-checked:translate-x-4"></div>  
+                </label>  
+            </form>
+        </div>
+    </div>
+
+    
+    <div class="relative overflow-x-auto mt-5" style="direction: ltr;">
+        <table class="bg-opacity-0 w-full max-h-full shadow-lg shadow-zinc-700 rounded-lg">
+            <thead class="sticky top-0 bg-gray-300 dark:bg-zinc-700 z-20">
+                <tr>
+                    <th class="table-header-td text-sm">Model</th>
+                    <th class="table-header-td text-sm">Time</th>
+                    <th class="table-header-td text-sm">Level</th>
+                    <th class="table-header-td text-sm">Message</th>
+                    <th class="table-header-td text-sm">Action</th>
+                </tr>
+            </thead>
+            <tbody id="all-device-table-body" class="divide-y divide-zinc-800 dark:divide-zinc-400">
+                {% for log in logs %}
+                    <tr lass="table-body-tr ">
+                        
+                        <td class="table-body-td text-sm">
+                            {{log |object_model}}
+                        </td>
+                        <td class="table-body-td text-sm">
+                            {{log.time|jalali}}
+                        </td>
+                        <td class="table-body-td text-sm">
+                            {{log.level}}
+                        </td>
+                        <td class="table-body-td text-left text-sm">
+                            {{log.message}}
+                        </td>
+
+                        <td class="table-body-td">
+                            <a class="btn-primary py-1 px-1 fa fa-eye" 
+                            {% if log|object_model == "SpeicalLog" %}href="{% url 'loggerapp:splog_details' log.pk %}"{% else %}href="{% url 'loggerapp:log_details' log.pk %}"{% endif %}></a>
+                        </td>
+                    </tr>
+                {% endfor %}
+            </tbody>
+        </table>
+
+       
+    </div>
+
+    <div class="pagination flex h-12 w-full justify-center mt-8 ">
+        <span class="">
+            {% if page_obj.has_next %}
+                <a href="?page={{ page_obj.paginator.num_pages }}{% if request.GET %}&{{request.GET.urlencode|remove_page_param }}{% endif %}" class="text-blue-500 hover:text-blue-700 mx-3">
+            <i class="fa fa-2x fa-angle-double-right "></i>
+            </a>
+                <a href="?page={{ page_obj.next_page_number }}{% if request.GET %}&{{request.GET.urlencode|remove_page_param }}{% endif %}" class="text-blue-500 hover:text-blue-700 mx-3">
+            <i class="fa fa-2x fa-angle-right "></i>
+            </a>
+            {% endif %}
+
+            <span class="current mx-4 text-zinc-800 dark:text-white"> Page {{ page_obj.number }} of {{ page_obj.paginator.num_pages }} </span>
+
+            {% if page_obj.has_previous %}
+                <a href="?page={{ page_obj.previous_page_number }}{% if request.GET %}&{{request.GET.urlencode|remove_page_param }}{% endif %}" class="text-blue-500 hover:text-blue-700 mx-3">
+            <i class="fa fa-2x fa-angle-left "></i>
+            </a>
+                <a href="?page=1{% if request.GET %}&{{request.GET.urlencode|remove_page_param }}{% endif %}" class="text-blue-500 hover:text-blue-700 mx-3">
+            <i class="fa fa-2x fa-angle-double-left "></i>
+            </a>
+            {% endif %}
+
+        </span>
+    </div>
+</div>
+
+
+{% endblock %}

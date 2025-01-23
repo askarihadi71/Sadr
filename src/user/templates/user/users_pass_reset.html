@@ -1,0 +1,46 @@
+{% extends 'base/full_base.html' %}
+{% load form_tags %}
+{% load static %}
+
+
+{% block content %}
+<div class="w-full h-full mt-4 flex justify-center">
+    <div class="relative pt-14 pb-2 w-[90%] sm:w-[70%] max-h-full h-[480px] flex flex-col rounded shadow-md bg-white dark:bg-boxdark font-Sahel">
+        <div class="absolute top-0 left-0 w-full h-12 text-sm sm:text-base dark:text-white font-Sahel bg-gray-300 dark:bg-strokedark flex items-center justify-center">
+            <p>تنظیم رمز عبور کاربر</p>
+        </div>
+        <div class="relative w-full px-2 py-2 flex flex-wrap gap-y-2 gap-x-4 justify-center overflow-y-auto">
+            <form method="post" class="mt-4">{% csrf_token %}
+              {% include "base/errors.html" %}
+                <div class="flex justify-center items-center ">
+
+                    <div class="mb-4.5 flex flex-col gap-6 xl:flex-row">
+
+                        <div class="w-full xl:w-1/2">
+                          <label class="mb-3 block text-sm font-medium text-black dark:text-white">
+                            رمز عبور جدید
+                          </label>
+                          <input type="text"  name="new_password1" {% if form.new_password1.value %}
+                            value="{{ form.new_password1.value }}" {% endif %}
+                            class="w-full rounded border-[1.5px] border-stroke bg-transparent px-5 py-3 font-normal text-black outline-none transition focus:border-primary active:border-primary disabled:cursor-default disabled:bg-whiter dark:border-form-strokedark dark:bg-form-input dark:text-white dark:focus:border-primary" />
+                        </div>
+          
+                        <div class="w-full xl:w-1/2">
+                          <label class="mb-3 block text-sm font-medium text-black dark:text-white">
+                            تکرار رمز عبور جدید
+                          </label>
+                          <input type="text"  name="new_password2" {% if form.new_password2.value %}
+                            value="{{ form.new_password2.value }}" {% endif %}
+                            class="w-full rounded border-[1.5px] border-stroke bg-transparent px-5 py-3 font-normal text-black outline-none transition focus:border-primary active:border-primary disabled:cursor-default disabled:bg-whiter dark:border-form-strokedark dark:bg-form-input dark:text-white dark:focus:border-primary" />
+                        </div>
+                      </div>
+
+                    
+                    <button type="submit" class="bg-success py-2 px-4 mr-2 text-white">ثبت</button>
+                </div>
+            </form>
+        </div>
+    </div>
+</div>
+
+{% endblock content %}

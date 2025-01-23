@@ -1,0 +1,149 @@
+{% load socialaccount %}
+{% load static %}
+{% load widget_tweaks %}
+{% load form_tags %}
+
+<!DOCTYPE html>
+<html lang="en" class="dark">
+
+<head>
+    <link type="text/css" href="{% static 'src/app.css' %}" rel="stylesheet">
+    <script type="text/javascript">
+      if(localStorage.theme === 'dark' || (!('theme' in localStorage) && window.matchMedia('(prefers-color-scheme: dark)'))){
+          document.documentElement.classList.add('dark')
+      }else{
+          document.documentElement.classList.remove('dark')
+      }
+  </script>
+
+</head>
+<body class="dark:bg-gray-800 bg-gray-100 font-SourceSans">
+
+  <svg class="hidden">
+        <symbol id="sun-icon" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="size-6">
+          <path stroke-linecap="round" stroke-linejoin="round" d="M12 3v2.25m6.364.386-1.591 1.591M21 12h-2.25m-.386 6.364-1.591-1.591M12 18.75V21m-4.773-4.227-1.591 1.591M5.25 12H3m4.227-4.773L5.636 5.636M15.75 12a3.75 3.75 0 1 1-7.5 0 3.75 3.75 0 0 1 7.5 0Z" />
+        </symbol>
+
+        <symbol id="moon-icon" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="size-6">
+          <path stroke-linecap="round" stroke-linejoin="round" d="M21.752 15.002A9.72 9.72 0 0 1 18 15.75c-5.385 0-9.75-4.365-9.75-9.75 0-1.33.266-2.597.748-3.752A9.753 9.753 0 0 0 3 11.25C3 16.635 7.365 21 12.75 21a9.753 9.753 0 0 0 9.002-5.998Z" />
+        </symbol>
+  </svg>
+
+    <a href="https://owltrace.com/" class="fixed top-3 left-3 text-gray-600 dark:text-white border-b-2 border-b-gray-300 hover:text-pink-500 hover:border-b-pink-500 transition-all">OWLTrace.com</a>
+    
+    <div class="flex w-full h-full min-h-screen items-center justify-center">
+        <div class="flex flex-col w-[480px] md:w-[760px] h-[80%]  bg-white dark:bg-transparent shadow dark:shadow-gray-950 rounded-lg border-2 dark:border-0 overflow-y-auto">
+
+          <div class="flex items-center justify-center text-pink-600 w-full border-b-2 dark:border-b-gray-900 h-16">
+              <p class="h-16 ">OWLTrace Logo</p>
+          </div>
+          <div class="flex flex-col items-center justify-center pb-6" style="height: calc(100% - 900px);">
+            <p class="text-center py-2 text-gray-600 dark:text-white text-2xl font-bold font-PlayfairDisplay">Create an Account</p>
+            <div class="dark:text-white text-gray-700 text-sm">
+                Already have an account? <a href="{% url 'user:account_login' %}" class="border-b-[1px] border-b-gray-500 hover:text-pink-500 hover:border-b-pink-500 transition-all">Sign in</a>
+            </div>
+            <form method="post" action="{% url 'user:register' %}" class="flex flex-col items-center pb-3 px-16 w-full" novalidate>{% csrf_token %}
+                
+                <div class="w-full">
+                    {% if form.non_field_errors %}
+                        <div class="text-red-600">
+                            {{ form.non_field_errors }}
+                        </div>
+                    {% endif %}
+                </div>
+
+                <div class="flex flex-col pt-8 items-center w-full max-w-[480px] md:max-w-[540px]">
+                    <div class="flex gap-x-2 w-full">
+                       <div class="flex flex-col w-1/2">
+                            <label for="first_name" class="float-left dark:text-white text-gray-700 text-sm">First Name:</label>
+                            {% render_field_with_errors form.first_name %}
+                       </div>
+                       <div class="flex flex-col w-1/2">
+                            <label for="last_name" class="float-left dark:text-white text-gray-700 text-sm">Last Name:</label>
+                            {% render_field_with_errors form.last_name %}
+                       </div>
+                    </div>
+                </div>
+
+                <div class="flex flex-col pt-8 items-center w-full max-w-[480px] md:max-w-[540px]">
+                    <div class="flex gap-x-2 w-full">
+                       <div class="flex flex-col w-1/2">
+                            <label for="first_name" class="float-left dark:text-white text-gray-700 text-sm">Email:</label>
+                            {% render_field_with_errors form.email %}
+                       </div>
+                       <div class="flex flex-col w-1/2">
+                            <label for="last_name" class="float-left dark:text-white text-gray-700 text-sm">Phone:</label>
+                            {% render_field_with_errors form.phone %}
+                       </div>
+                    </div>
+                </div>
+
+
+
+              <div class="flex flex-col pt-8 items-center w-full max-w-[480px] md:max-w-[540px]">
+                <div class="flex gap-x-2 w-full">
+                   <div class="flex flex-col w-1/2">
+                        <label for="first_name" class="float-left dark:text-white text-gray-700 text-sm">Timezone:</label>
+                        {% render_field_with_errors form.timezone %}
+                   </div>
+                   <div class="flex flex-col w-1/2">
+                        <label for="last_name" class="float-left dark:text-white text-gray-700 text-sm">Country:</label>
+                        {% render_field_with_errors form.country %}
+                   </div>
+                </div>
+            </div>
+
+            <div class="flex flex-col pt-8 items-center w-full max-w-[480px] md:max-w-[540px]">
+                <div class="flex gap-x-2 w-full">
+                   <div class="flex flex-col w-1/2">
+                        <label for="first_name" class="float-left dark:text-white text-gray-700 text-sm">City:</label>
+                        {% render_field_with_errors form.city %}
+                   </div>
+                   <div class="flex flex-col w-1/2">
+                        <label for="last_name" class="float-left dark:text-white text-gray-700 text-sm">Company:</label>
+                        {% render_field_with_errors form.company %}
+                   </div>
+                </div>
+            </div>
+
+          
+              <div class="flex flex-col pt-8 items-center w-full max-w-[480px] md:max-w-[540px]">
+                <div class="flex gap-x-2 w-full">
+                   <div class="flex flex-col w-1/2">
+                    <label for="password" class="float-left dark:text-white text-gray-700 text-sm">Password</label>
+                    {% render_field_with_errors form.password1 %}
+                   
+                   </div>
+                   <div class="flex flex-col w-1/2">
+                    <label for="password" class="float-left dark:text-white text-gray-700 text-sm">Password (again) </label>
+                    {% render_field_with_errors form.password2 %}
+                   </div>
+                    
+                </div>
+                <div class="text-sm text-gray-700 dark:text-gray-400 pt-2">{{form.password1.help_text}}</div>
+              </div>
+
+              <button type="submit" class="mt-8 rounded bg-pink-500 w-80 py-2 text-white font-bold ">Submit</button>
+            </form>
+
+            <div class="fixed top-2 right-2 toggle-theme text-4xl z-50">
+                <span class="flex items-center hidden dark:inline-block cursor-pointer">
+                  <svg class="w-[100px] h-10 text-orange-300">
+                    <use href="#sun-icon"></use>
+                </svg>
+                </span>
+                  <span class="flex items-center inline-block dark:hidden cursor-pointer">
+                     <svg class="w-[100px] h-10 text-gray-600">
+                        <use href="#moon-icon"></use>
+                    </svg>
+                </span>
+              </div>
+          </div>
+        </div>
+    </div>
+
+<script src="{% static 'src/app.js' %}"></script>
+
+</body>
+</html>
+

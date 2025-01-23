@@ -1,0 +1,38 @@
+{% extends 'base/full_base.html' %}
+{% load static %}
+
+
+{% block content %}
+<div class="w-full h-full mt-4 flex justify-center">
+
+
+    <div class="relative pt-14 pb-8 w-80 sm:w-[70%] max-h-full h-[480px] flex flex-col rounded shadow-md bg-white dark:bg-boxdark font-Sahel">
+        <div class="absolute top-0 left-0 w-full h-12 text-sm sm:text-base dark:text-white font-Sahel bg-gray-300 dark:bg-strokedark flex items-center justify-center">
+            <p> تغییر شماره همراه</p>
+        </div>
+        <div class="relative w-full px-2 py-2 flex flex-wrap gap-y-2 gap-x-4 justify-center overflow-y-scroll">
+            <form action="{% url 'user:change_phone_submit' %}" method="post" class="mt-4">
+                {% csrf_token %}
+                <div class="flex flex-col justify-center items-end gap-4">
+                    <div class="flex flex-col relative">
+                        <label class="dark:text-white text-xs sm:text-sm">
+                            کد ارسال شده به شماره همراه جدید :
+                        </label>
+                        <input type="text" value="" class="input" name="token" required placeholder="XXXX">
+                        <i class="fa fa-lock dark:text-white fa-2x absolute left-[6px] top-[17px] sm:top-[25px]"></i>
+                    </div>
+
+                    <div class="w-full flex justify-center">
+                        <button type="submit" class="bg-success py-2 px-4 mr-2 text-white">ثبت</button>
+                    </div>
+
+                </div>
+            </form>
+        </div>
+    </div>
+</div>
+
+
+
+
+{% endblock %}

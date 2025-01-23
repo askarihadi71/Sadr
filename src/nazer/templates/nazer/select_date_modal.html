@@ -1,0 +1,50 @@
+<div id="select_date_modal" class="modal font-Sahel z-50 fade-in3 hidden">
+    <div class="modal-content flex flex-col modal-sm max-h-full overflow-hidden pb-14 relative">
+        <div class="modal-header tracking-widest mb-2">
+            <h2 id="select_date_modal_title" class="mb-3">
+                انتخاب بازه زمانی
+            </h2>
+        </div>
+
+        <div class="w-full h-full max-h-full overflow-y-auto flex flex-col relative items-center">
+          
+            
+            <div class="flex flex-col gap-y-2">
+                <label for="id_date1" class="text-zinc-800 dark:text-white pt-2" >
+                    از :
+                </label>
+                    <input id="date1" class="input w-fit min-w-24 bg-white" data-jdp>
+                    <input id="time1" class="input w-fit min-w-24 bg-white" data-jdp  data-jdp-only-time />
+            </div>
+            <div class="flex flex-col gap-y-2">
+                <label for="id_date1" class="text-zinc-800 dark:text-white pt-2" >
+                    تا :
+                </label>
+                    <input id="date2" class="input w-fit min-w-24 bg-white " data-jdp>
+                    <input id="time2" class="input w-fit min-w-24 bg-white" data-jdp  data-jdp-only-time />
+            </div>
+   
+        </div>
+
+
+        <div class="modal-footer gap-3">
+            <button id="select_date_modal_cancel" data-modal="select_date_modal"
+                class="closeModalBtn bg-red-400 px-4 py-1 font-Sahel" onclick="close_modal('select_date_modal')">لغو</button>
+                <button id="select_date_modal_apply"
+                class="closeModalBtn bg-green-500 px-4 py-1" onclick="close_modal('select_date_modal')">تایید</button>
+        </div>
+    </div>
+</div>
+<script>
+    let start_time = null
+    let end_time = null
+    document.getElementById("select_date_modal_apply").addEventListener("click", ()=>{
+        let date1 = document.getElementById("date1").value;
+        let time1 = document.getElementById("time1").value;
+        let date2 = document.getElementById("date2").value;
+        let time2 = document.getElementById("time2").value;
+
+        start_time = get_Gregorian(`${date1}-${time1}`)
+        end_time = get_Gregorian(`${date2}-${time2}`)
+    })
+</script>

@@ -1,0 +1,63 @@
+{% extends "base/full_base.html" %}
+{% load form_tags %}
+
+{% block content %}
+<main>
+  <div class="mx-auto max-w-screen-2xl p-4 md:p-6 2xl:p-10">
+
+    <!-- ====== Form Layout Section Start -->
+    <div class="flex w-full flex-col gap-9">
+      <!-- Contact Form -->
+      <div class="rounded-sm border border-stroke bg-white shadow-default dark:border-strokedark dark:bg-boxdark">
+        <div class="border-b border-stroke px-6.5 py-4 dark:border-strokedark">
+          <h3 class="font-medium text-black dark:text-white text-center">
+            {% if request.resolver_match.kwargs.pk %}
+            ویرایش اطلاعات هشدار
+            {% else %}
+            هشدار جدید
+            {% endif %}
+          </h3>
+        </div>
+        <form method="post">{% csrf_token %}
+          {% include "base/errors.html" %}
+          <div class="p-6.5">
+
+            <div class="mb-4.5 flex flex-col gap-6 xl:flex-row">
+
+                {% custom_foreignkey_field "دستگاه" "device" form.device.field.choices form True %}
+            
+            </div>
+
+                <div class="mb-4.5 flex flex-col gap-6 xl:flex-row">
+                    {% custom_input_field "نوع" "alarm_type" "" "text" form=form %}
+                    {% custom_input_field "کانال" "channel" "" "text" form=form %}
+                    {% custom_input_field "نام دستگاه" "device_name" "" "text" form=form %}
+                    {% custom_input_field "نام هشدار" "alarm_name" "" "text" form=form %}
+                </div>
+                <div class="mb-4.5 flex flex-col gap-6 xl:flex-row items-center justify-center">
+
+                    {% custom_input_field "IP" "ip" "" "text" form=form %}
+                    <div>
+                        {% custom_switch_field "پیامک ارسال شده؟" "is_sms_sent" form  %}
+                    </div>
+                    <div>
+                        {% custom_switch_field "ایمیل ارسال شده؟" "is_email_sent" form  %}
+                    </div>
+                    <div>
+                        {% custom_switch_field "رسیدگی شده؟" "handled" form  %}
+                    </div>
+                </div>
+
+           <div class="flex justify-center w-full">
+              <button type="submit"
+              class="rounded bg-success px-4 py-2 font-medium text-white hover:bg-opacity-90">
+              ذخیره
+            </button>
+           </div>
+        </form>
+      </div>
+    </div>
+    <!-- ====== Form Layout Section End -->
+  </div>
+</main>
+{% endblock content %}

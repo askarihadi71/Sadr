@@ -1,0 +1,94 @@
+{% load static %}
+{% load static_version %}
+
+<!DOCTYPE html>
+<html lang="en" dir="rtl">
+
+<head>
+    <meta charset="UTF-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>
+        {% block document_title %}
+        صدر نت
+        {% endblock document_title %}
+    </title>
+    <link rel="icon" href="{% static 'favicon.ico' %}">
+    <link href="{% static 'plugins/font-awesome/css/font-awesome.min.css' %}" rel="stylesheet">
+    <link href="{% static 'plugins/toastr/toastr.css' %}" rel="stylesheet">
+    <link href="{% static 'plugins/notification/notification.css' %}" rel="stylesheet">
+    <link href="{% static 'plugins/loader/loader.css' %}" rel="stylesheet">
+    <script src="{% static 'plugins/jalaali.min.js' %}"></script>
+
+    <link rel="stylesheet" href="{% static 'plugins/flatpicker/flatpickr.min.css' %}"/>
+    <link rel="stylesheet" href="{% static 'plugins/jalalidatepicker/jalalidatepicker.min.css' %}"/>
+
+    <script src="{% static 'plugins/jalalidatepicker/jalalidatepicker.min.js' %}"></script>
+
+
+    <link href="{% static 'app/style.css' %}?v={%static_version%}" rel="stylesheet">
+    <style>
+        .notification-container{
+            z-index: 99999;
+        }
+    </style>
+</head>
+
+<body
+    x-data="{ page: 'ecommerce', 'loaded': true, 'darkMode': true, 'stickyMenu': false, 'sidebarToggle': false, 'scrollTop': false }"
+    x-init="
+         darkMode = JSON.parse(localStorage.getItem('darkMode'));
+         $watch('darkMode', value => localStorage.setItem('darkMode', JSON.stringify(value)))"
+    :class="{'dark text-bodydark bg-boxdark-2': darkMode === true}">
+    <!-- ===== Preloader Start ===== -->
+
+    <div x-show="loaded"
+        x-init="window.addEventListener('DOMContentLoaded', () => {setTimeout(() => loaded = false, 500)})"
+        class="fixed left-0 top-0 z-999999 flex h-screen w-screen items-center justify-center bg-white dark:bg-black">
+
+        <div class="h-16 w-16 animate-spin rounded-full border-4 border-solid border-primary border-t-transparent">
+        </div>
+    </div>
+
+    <!-- ===== Preloader End ===== -->
+     
+
+    <!-- ===== Page Wrapper Start ===== -->
+    <div class="flex h-screen max-w-full relative overflow-hidden">
+        {% block sidebar %}{% endblock sidebar %}
+        <!-- ===== Content Area Start ===== -->
+        <div class="relative flex flex-1 flex-col overflow-y-auto overflow-x-hidden">
+            {% block header %}{% endblock header %}
+       
+            {% block content %}{% endblock content %}
+
+            <div id="loading-section" class="hidden fixed flex items-center top-0 left-0 bg-black/50 h-full w-full" style="z-index: 54;"></div>
+
+            <script>
+                let loading_section = document.getElementById("loading-section") 
+            </script>
+        </div>
+        <!-- ===== Content Area End ===== -->
+    </div>
+    <!-- ===== Page Wrapper End ===== -->
+
+    <script defer src="{% static 'app/bundle.js' %}"></script>
+    <script src="{% static 'plugins/jquery-3.6.4.min.js' %}"></script>
+
+    <script src="{% static 'plugins/csrf.js' %}"></script>
+ 
+    <script src="{% static 'plugins/toastr/toastr.min.js' %}"></script>
+    <script src="{% static 'plugins/notification/notification.js' %}"></script>
+    <script src="{% static 'plugins/loader/loader.js' %}"></script>
+    <script src="{% static 'plugins/flatpicker/flatpickr.js' %}"></script>
+
+    <script src="{% static 'app/base.js' %}?v={%static_version%}"></script>
+
+
+{% block extra_js %}
+  
+{% endblock extra_js %}
+{% include "base/django_messages.html" %}
+</body>
+
+</html>

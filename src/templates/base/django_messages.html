@@ -1,0 +1,29 @@
+{% if messages %}
+{% for message in messages %}
+    <input type="hidden" class="dj-messages" value="{{ message }}" data-tags="{{ message.tags}}">
+{%endfor%}
+<script>
+    document.addEventListener('DOMContentLoaded', function () {
+        document.querySelectorAll(".dj-messages").forEach(ele=>{
+            let messageText = ele.value;
+            let messageLevel = ele.dataset.tags;
+            console.log(messageLevel, messageText)
+            switch (messageLevel) {  
+                case 'error':  
+                    toastr.error(messageText);  
+                    break;  
+                case 'warning':  
+                    toastr.warning(messageText);  
+                    break;  
+                case 'success':  
+                    toastr.success(messageText);  
+                    break;  
+                default: // This includes 'info' and also any other unrecognized tags.  
+                    toastr.info(messageText);  
+                    break;  
+            }  
+        })
+        
+    });
+</script>
+{% endif %}

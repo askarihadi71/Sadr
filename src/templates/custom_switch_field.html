@@ -1,0 +1,11 @@
+<div class="w-full flex gap-3 mb-3 pl-3">
+    <p class="dark:text-white text-xs sm:text-sm">{{ label }}:</p> {% if require %}<span class="text-meta-1">*</span>{% endif %}
+  
+    <label class="sw-lable">
+      <input id="{{ name }}" name="{{ name }}" type="checkbox" class="sr-only peer"
+             {% if checked %} checked {% endif %} />
+      <div class="sw-div-1"></div>
+      <div class="sw-div-2"></div>
+    </label>
+  </div>
+  

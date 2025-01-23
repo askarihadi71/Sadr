@@ -1,0 +1,129 @@
+{% load static %}
+
+<!DOCTYPE html>
+<html lang="en" dir="rtl">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>اپلیکیشن دفتر</title>
+    <link href="{% static 'plugins/font-awesome/css/font-awesome.min.css' %}" rel="stylesheet">
+    <link href="{% static 'app/app.css' %}" rel="stylesheet">
+    <style>
+        @keyframes fadeIn {
+          from { opacity: 0; transform: translateY(-20px); }
+          to { opacity: 1; transform: translateY(0); }
+        }
+        .fade-in {
+          animation: fadeIn 1s ease-out;
+        }
+    </style>
+    <style>
+        body {
+            background-image: url("{% static 'images/bg1.jpg' %}");
+            background-size: cover;
+            background-repeat: no-repeat; 
+            background-position: center;
+            height: 100vh;
+            margin: 0;
+        }
+    </style>
+</head>
+<body class="h-full w-full min-h-screen bg-gray-200 flex items-center justify-center">
+    <input type="hidden" id="email_otp_url" data-url="{% url 'user:otp_email_request' %}">
+
+    <div class="relative flex flex-col sm:flex-row rounded-xl bg-white shadow-xl w-[90%] md:w-[650px] lg:w-[880px] h-96 max-h-screen max-w-full py-4 px-2 pb-6 fade-in overflow-y-scroll overflow-x-hidden sm:overflow-x-visible sm:overflow-y-visible">
+        <div class="order-2 sm:order-1 flex flex-wrap justify-center items-center w-full sm:w-[47%] h-full sm:border-l-2 border-emerald-700/35 p-2 gap-4 px-6">
+            
+            <form method="post" class="w-[90%]">
+                {% csrf_token %}
+                <div class="relative flex flex-col gap-2 font-Sahel">
+                    <label class="font-Sahel w-full" for="">کد ورود:</label>
+                    
+                    <input class="input" type="text" name="otp_code" autofocus="" autocapitalize="none" autocomplete="username" maxlength="6" required="" id="id_otp_code">
+                    <div id="usericon" class="absolute top-[31px] left-0 p-1 text-gray-500">
+                        <i class="fa fa-lock fa-2x"></i>
+                    </div>
+                </div>
+                <button class="btn shadow-md shadow-zinc-300 bg-emerald-600 hover:bg-emerald-500 text-white mt-4 w-full font-SahelBold md:text-lg">ورود</button>
+            </form>
+            <div class="font-Sahel mt-4 flex gap-3 flex-wrap text-sm">
+                <a  class="link text-sm" href="{% url 'user:username_login' %}">تصحیح اطلاعات و درخواست مجدد کد</a>
+                <p>کد را دریافت نمی کنید؟ <a class="link text-sm cursor-pointer" id="request-email-otp">از طریق ایمیل امتحان کنید</a></p>
+            </div>
+        </div>
+
+
+        <div class="order-1 w-full sm:w-[53%] h-full flex flex-col items-center relative justify-center">
+            <div class="w-full flex flex-col sm:flex-row items-end sm:justify-center">
+                <a href=""><img class="md:w-[220px] md:h-[137px] w-[170px] h-[107px]" style="filter:drop-shadow(4px 19px 8px #57da5f)" src="../static/images/Logo.png" alt=""></a>
+                <p class="sm:hidden -ml-8 min-w-fit w-64 text-[14px] text-center text-zinc-800 font-PlayfairDisplay font-bold tracking-widest" style="filter: drop-shadow(1px 20px 3px #44d);">"THE FUTURE IS NOW"</p>
+            </div>
+            <div class="order-2 absolute flex flex-col justify-center items-center h-full sm:static top-1 right-2">
+                <p class="md:text-[14px] hidden sm:block lg:text-xl font-SahelBold tracking-widest font-bold text-center">شرکت دانش بنیان بهبود گستر لیام ایرانیان</p>
+                <p class="font-SahelBold font-bold mt-5 md:text-[14px] lg:text-xl text-center">سامانه برخط آنالایزر اکسان</p>
+            </div>
+        </div>
+        <p class="absolute hidden sm:block min-w-fit pl-10 w-64 bottom-0 left-0 right-0 mx-auto md:text-[14px] lg:text-xl text-center text-zinc-800 font-PlayfairDisplay font-bold tracking-widest" style="filter: drop-shadow(1px 20px 3px #44d);">"THE FUTURE IS NOW"</p>
+    </div>
+
+
+<script src="{% static 'plugins/jquery-3.6.4.min.js' %}"></script>
+
+<script src="{% static 'csrf.js' %}"></script>
+
+<script>
+    document.getElementById("id_otp_code").addEventListener("focus", ()=>{
+        document.getElementById("usericon").classList.remove("text-gray-500")
+        document.getElementById("usericon").classList.add("text-green-600")
+    })
+    document.getElementById("id_otp_code").addEventListener("focusout",()=>{
+        document.getElementById("usericon").classList.add("text-gray-500")
+        document.getElementById("usericon").classList.remove("text-green-600")
+    })
+
+    let email_otp_url =  window.location.origin + document.getElementById("email_otp_url").dataset.url
+    async function post_method(url) {
+        try {
+            const response = await fetch(url, {
+                method: 'POST', headers: {
+                    'X-CSRFToken': getCookie("csrftoken"), 'Accept': 'application/json', 'Content-Type': 'application/json'
+                },
+            });
+            if (!response.ok) {
+                try {
+                    const data = await response.json()
+                    return {error: data}
+                } catch {
+                    throw new Error(`something went wrong with Getting Data!!!   ${response.status} : ${response.statusText}`);
+                }
+            }
+            try{
+                return await response.json()
+            }catch{
+                return response
+            }
+            
+        } catch (error) {
+            return {error: error.message}
+        }
+    }
+
+    document.getElementById("request-email-otp").addEventListener("click", ()=>{
+        post_method(email_otp_url).then(response => {
+            if (response.error) {
+                postMethodErrorHandler(response)
+            } else {
+                
+                let error_container = document.getElementById("error-modal-errors")
+                error_container.innerHTML=``
+                document.getElementById("error_modal_title").textContent=""
+
+                error_container.innerHTML+=`<p class="text-green-600 w-full text-center">${response.message}</p>`
+                open_modal('error_modal')
+            }
+        })})
+
+</script>
+    
+</body>
+</html>

@@ -1,0 +1,78 @@
+<aside :class="sidebarToggle ? 'translate-x-0' : 'translate-x-full'"
+    class="absolute right-0 top-0 z-9999 flex h-screen w-72.5 flex-col overflow-y-hidden bg-black duration-300 ease-linear dark:bg-boxdark lg:static lg:translate-x-0"
+    @click.outside="sidebarToggle = false">
+    <!-- SIDEBAR HEADER -->
+    <div class="flex items-center justify-between gap-2 px-6 py-5.5 lg:py-6.5 font-Sahel">
+        <a href="index.html" class="w-full">
+            <h1 class="text-center w-full text-lg">صدر نت</h1>
+        </a>
+
+        <button class="block lg:hidden" @click.stop="sidebarToggle = !sidebarToggle">
+            <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="size-6">
+                <path stroke-linecap="round" stroke-linejoin="round" d="M13.5 4.5 21 12m0 0-7.5 7.5M21 12H3" />
+              </svg>
+              
+        </button>
+    </div>
+    <!-- SIDEBAR HEADER -->
+
+    <div class="no-scrollbar flex flex-col overflow-y-auto duration-300 ease-linear">
+        <!-- Sidebar Menu -->
+        <nav class="mt-5 px-4 py-4 lg:mt-9 lg:px-6" x-data="{selected: $persist('Dashboard')}">
+            <!-- Menu Group -->
+            <div>
+                <ul class="mb-6 flex flex-col gap-1.5">
+
+                    <!-- Menu Item Customers -->
+                     {% if user.is_superuser %}
+                        <li>
+                            <a class="group relative flex items-center gap-2.5 rounded-sm px-4 py-2 font-medium text-bodydark1 duration-300 ease-in-out hover:bg-graydark dark:hover:bg-meta-4"
+                                href="{% url 'nazer:dahsbord' %}">
+                                <i class="fa fa-dashboard"></i>
+
+                                داشبورد
+                            </a>
+                        </li>
+                    
+                    <!-- Menu Item Customers -->
+
+                    <!-- Menu Item Customers -->
+                    <li>
+                        <a class="group relative flex items-center gap-2.5 rounded-sm px-4 py-2 font-medium text-bodydark1 duration-300 ease-in-out hover:bg-graydark dark:hover:bg-meta-4 {% if request.resolver_match.url_name == 'users_list' %}bg-meta-4{% endif %}"
+                            href="{% url 'user:users_list' %}">
+                            <i class="fa fa-users"></i>
+                            لیست مشتری ها
+                        </a>
+                    </li>
+                    <!-- Menu Item Customers -->
+
+                    <!-- Menu Item Profile -->
+                    <li>
+                        <a class="group relative flex items-center gap-2.5 rounded-sm px-4 py-2 font-medium text-bodydark1 duration-300 ease-in-out hover:bg-graydark dark:hover:bg-meta-4 {% if request.resolver_match.url_name == 'device_list' %}bg-meta-4{% endif %}" href="{% url 'nazer:device_list' %}">
+                            <i class="fa fa-video-camera"></i>
+                            دستگاه ها
+                        </a>
+                    </li>
+
+                    <li>
+                        <a class="group relative flex items-center gap-2.5 rounded-sm px-4 py-2 font-medium text-bodydark1 duration-300 ease-in-out hover:bg-graydark dark:hover:bg-meta-4 {% if request.resolver_match.url_name == 'logs' %}bg-meta-4{% endif %}" href="{% url 'loggerapp:logs' %}">
+                            <i class="fa fa-file-text-o"></i>
+                            لاگ ها
+                        </a>
+                    </li>
+
+                    {% endif %}
+                    <li>
+                        <a class="group relative flex items-center gap-2.5 rounded-sm px-4 py-2 font-medium text-bodydark1 duration-300 ease-in-out hover:bg-graydark dark:hover:bg-meta-4 {% if request.resolver_match.url_name == 'alarms_list_view' %}bg-meta-4{% endif %}" href="{% url 'nazer:alarms_list_view' %}">
+                            <i class="fa fa-bell-o"></i>
+                            هشدارها
+                        </a>
+                    </li>
+                    <!-- Menu Item Profile -->
+                </ul>
+            </div>
+        </nav>
+        <!-- Sidebar Menu -->
+
+    </div>
+</aside>

@@ -1,0 +1,33 @@
+{% extends "user/base.html" %}
+{% load i18n %}
+{% load allauth %}
+{% block head_title %}
+    {% trans "Verify Your Email Address" %}
+{% endblock head_title %}
+{% block content %}
+    <h1 class="text-xl font-PlayfairDisplayBold font-bold text-orange-500 py-4">
+        {% trans "Verify Your Email Address" %}
+    </h1>
+   <div class="px-4 font-sans text-zinc-800 dark:text-white">
+
+        {% url 'account_email' as email_url %}
+        <p>
+            {% blocktrans %}This part of the site requires us to verify that
+                you are who you claim to be. For this purpose, we require that you
+                verify ownership of your email address. {% endblocktrans %}
+        </p>
+        <p>
+            {% blocktrans %}We have sent an email to you for
+            verification. Please click on the link inside that email. If you do not see the verification email in your main inbox, check your spam folder. 
+            <p class="pt-2">If you do not receive it within a few minutes, click on the link below to request a new verification email.</p>
+            {% endblocktrans %}
+        </p>
+
+        <p class="pt-4">
+            {% blocktrans %}<strong class="text-orange-500">Note:</strong> you can still 
+            <a class="border-b-2 border-b-zinc-700 dark:border-b-gray-400 hover:text-pink-500 hover:border-b-pink-500 dark:hover:border-b-pink-500" href="{{ email_url }}">change your email address</a>.
+            {% endblocktrans %}
+            <form method="post" action="{% url 'user:account_logout' %}">{% csrf_token %}<button type="submit" class="border-b-2 border-b-zinc-700 dark:border-b-gray-400 hover:text-pink-500 hover:border-b-pink-500 dark:hover:border-b-pink-500" href="">or logout</button></form>
+        </p>
+   </div>
+{% endblock content %}

@@ -1,0 +1,135 @@
+{% extends "base/base.html" %}
+{% load static %}
+
+{% block content %}
+<form method="post" class="flex flex-col pt-2" >{% csrf_token %}
+    <div class="w-full ax-w-[480px] md:max-w-[540px]">
+    {% if form.non_field_errors %}
+          <div class="text-red-600">
+              {{ form.non_field_errors }}
+          </div>
+      {% endif %} 
+      {% if form.errors %}
+          <div class="text-red-600">
+              <span>{{ form.errors }}</span>
+          </div>
+      {% endif %}
+      {% if messages %}
+            {% for message in messages %}
+            <div class="bg-green-500 py-2 px-2">
+              <span>{{ message }}</span>
+            </div>
+            {% endfor %}
+      {% endif %}
+  </div>
+
+
+    <div class="flex flex-col pb-4">
+        <label for="email" class="float-left dark:text-white text-gray-700 text-sm pb-2"> کد ورود :</label>
+        <input class="input" type="text" name="otp_code" autofocus="" autocapitalize="none" autocomplete="username" maxlength="6" required="" id="id_otp_code">
+        <div id="usericon" class="absolute top-[31px] left-0 p-1 text-gray-500">
+            <i class="fa fa-lock fa-2x"></i>
+        </div>
+    </div>
+    
+    <button class="mt-2 rounded bg-pink-500 w-80 py-2 text-white font-bold ">ورود</button>
+  </form>
+  <div class="font-Sahel mt-4 flex gap-3 flex-wrap text-sm">
+    <a  class="link text-sm" href="{% url 'user:username_login' %}">تصحیح اطلاعات و درخواست مجدد کد</a>
+    <p>کد را دریافت نمی کنید؟ <a class="link text-sm cursor-pointer" id="request-email-otp">از طریق ایمیل امتحان کنید</a></p>
+</div>
+  <a onclick="submit_google()" class="flex items-center mt-4 text-gray-700 py-2 px-2 rounded-full shadow-sm shadow-gray-300 cursor-pointer hover:bg-pink-400 transition-all">
+    <img  src="{% static 'images/icon-google.webp' %}" alt="">
+  </a>
+
+  <div class="absolute bottom-0 right-4 dark:text-white text-gray-700">حساب ندارید؟ <a href="{% url 'user:register' %}" class="border-b-[1px] hover:text-pink-500 hover:border-b-pink-500 transition-all">ثبت نام کنید.</a>
+  </div>
+
+  <form action="/accounts/google/login/" method="post" id="google_form">
+    {% csrf_token %}
+  </form>
+  <script>
+    function submit_google(){
+        document.getElementById("google_form").submit()
+    }
+  </script>
+{% endblock content %}
+
+{% block main %}
+<form method="post" class="flex flex-col pt-2" >{% csrf_token %}
+<main>
+  <div class="mx-auto max-w-screen-2xl p-4 md:p-6 2xl:p-10">
+    <!-- ====== Forms Section Start -->
+    <div
+      class="rounded-sm border border-stroke bg-white shadow-default dark:border-strokedark dark:bg-boxdark"
+    >
+      <div class="flex flex-wrap items-center">
+        <div class="hidden w-full xl:block xl:w-1/2">
+          <div class="px-26 py-17.5 text-center">
+           
+
+            <p class="text-xl 2xl:px-20">
+              صدر نت 
+            </p>
+
+            <span class="mt-15 inline-block">
+              <img
+                src="{% static 'images/illustration/illustration-03.svg' %}"
+                alt="illustration"
+              />
+            </span>
+          </div>
+        </div>
+        <div
+          class="w-full border-stroke dark:border-strokedark xl:w-1/2 xl:border-l-2"
+        >
+          <div class="w-full p-4 sm:p-12.5 xl:p-17.5">
+            <h2
+              class="mb-9 text-2xl font-bold text-black dark:text-white sm:text-title-xl2"
+            >
+              ورود به سامانه
+            </h2>
+
+            <form method="post">{% csrf_token %}
+              <div class="mb-4">
+                <label
+                  class="mb-2.5 block font-medium text-black dark:text-white">کد ورود</label>
+                <div class="relative">
+                  <input
+                    type="text"
+                    name="otp_code"
+                    placeholder="کد ارسالی را وارد کنید"
+                    class="w-full rounded-lg border border-stroke bg-transparent py-4 px-6 outline-none focus:border-primary focus-visible:shadow-none dark:border-form-strokedark dark:bg-form-input dark:focus:border-primary"
+                  />
+                  <svg class="absolute w-8 h-8 top-4 left-2" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="size-6">
+                    <path stroke-linecap="round" stroke-linejoin="round" d="M16.5 10.5V6.75a4.5 4.5 0 1 0-9 0v3.75m-.75 11.25h10.5a2.25 2.25 0 0 0 2.25-2.25v-6.75a2.25 2.25 0 0 0-2.25-2.25H6.75a2.25 2.25 0 0 0-2.25 2.25v6.75a2.25 2.25 0 0 0 2.25 2.25Z" />
+                  </svg>
+                  
+                  </span>
+                </div>
+              </div>
+
+
+              <div class="mb-5">
+                <input
+                  type="submit"
+                  value="ورود"
+                  class="w-full cursor-pointer rounded-lg border border-primary bg-primary p-4 font-medium text-white transition hover:bg-opacity-90"
+                />
+              </div>
+            </form>
+
+            <div class="font-Sahel mt-4 flex flex-col gap-3 flex-wrap text-sm">
+              <a  class="underline text-sm" href="{% url 'user:username_login' %}">تصحیح اطلاعات و درخواست مجدد کد</a>
+              <p>کد را دریافت نمی کنید؟ <a class="link text-sm cursor-pointer" id="request-email-otp">از طریق ایمیل امتحان کنید</a>
+              </p>
+          </div>
+          </div>
+        </div>
+      </div>
+    </div>
+    <!-- ====== Forms Section End -->
+  </div>
+</main>
+
+{% endblock main %}

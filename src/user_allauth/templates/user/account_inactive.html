@@ -1,0 +1,18 @@
+{% extends "user/base.html" %}
+
+{% block content %}
+    <div class="flex flex-col gap-4 justify-center items-center w-full h-full mt-4">
+        <p class="text-red-600 text-xl font-PlayfairDisplay">This account is inactive. </p>
+        
+        
+        <div class="flex flex-col gap-4 mt-6">
+            <div class="dark:text-white text-gray-700">
+                <a href="{% url 'user:account_login' %}" class="border-b-[1px] hover:text-pink-500 hover:border-b-pink-500 transition-all">Sign in using another account</a>
+            </div>
+    
+            <div class="dark:text-white text-gray-700">
+                <a href="{% url 'user:register' %}" class="border-b-[1px] hover:text-pink-500 hover:border-b-pink-500 transition-all">Request a demo</a>
+            </div>
+        </div>
+    </div>
+{% endblock content %}

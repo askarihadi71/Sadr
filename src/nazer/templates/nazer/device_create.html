@@ -1,0 +1,74 @@
+{% extends "base/full_base.html" %}
+
+{% block content %}
+<main>
+  <div class="mx-auto max-w-screen-2xl p-4 md:p-6 2xl:p-10">
+
+    <!-- ====== Form Layout Section Start -->
+    <div class="flex w-full flex-col gap-9">
+      <!-- Contact Form -->
+      <div class="rounded-sm border border-stroke bg-white shadow-default dark:border-strokedark dark:bg-boxdark">
+        <div class="border-b border-stroke px-6.5 py-4 dark:border-strokedark">
+          <h3 class="font-medium text-black dark:text-white text-center">
+            {% if request.resolver_match.kwargs.pk %}
+            ویرایش اطلاعات دستگاه
+            {% else %}
+            دستگاه جدید
+            {% endif %}
+          </h3>
+        </div>
+        <form method="post">{% csrf_token %}
+          {% include "base/errors.html" %}
+          <div class="p-6.5">
+
+            <div class="mb-4.5 flex flex-col gap-6 xl:flex-row">
+
+              <div class="w-full xl:w-1/2">
+                <label class="mb-3 block text-sm font-medium text-black dark:text-white">
+                  عنوان
+                </label>
+                <input type="text" placeholder="عنوان دستگاه" name="title" {% if form.title.value %} value="{{ form.title.value }}" {% endif %}
+                  class="w-full rounded border-[1.5px] border-stroke bg-transparent px-5 py-3 font-normal text-black outline-none transition focus:border-primary active:border-primary disabled:cursor-default disabled:bg-whiter dark:border-form-strokedark dark:bg-form-input dark:text-white dark:focus:border-primary" />
+              </div>
+
+              <div class="w-full xl:w-1/2">
+                <label class="mb-3 block text-sm font-medium text-black dark:text-white">
+                  ایمیل
+                </label>
+                <input type="email" placeholder="ایمیل دستگاه" name="email" {% if form.email.value %} value="{{ form.email.value }}" {% endif %}
+                  class="w-full rounded border-[1.5px] border-stroke bg-transparent px-5 py-3 font-normal text-black outline-none transition focus:border-primary active:border-primary disabled:cursor-default disabled:bg-whiter dark:border-form-strokedark dark:bg-form-input dark:text-white dark:focus:border-primary" />
+              </div>
+            </div>
+
+           
+            <div class="mb-4.5">
+              <label class="mb-3 block text-sm font-medium text-black dark:text-white">
+                توضیحات
+              </label>
+              <input type="text" placeholder="توضیحات" name="description" {% if form.description.value %} value="{{ form.description.value }}" {% endif %}
+                class="w-full rounded border-[1.5px] border-stroke bg-transparent px-5 py-3 font-normal text-black outline-none transition focus:border-primary active:border-primary disabled:cursor-default disabled:bg-whiter dark:border-form-strokedark dark:bg-form-input dark:text-white dark:focus:border-primary" />
+            </div>
+
+            <div class="mb-4.5">
+              <label class="mb-3 block text-sm font-medium text-black dark:text-white">
+                آدرس :
+              </label>
+              <textarea name="address" placeholder="آدرس " {% if form.address.value %}
+              value="{{ form.address.value }}" {% endif %}  class="w-full rounded border-[1.5px] border-stroke bg-transparent px-5 py-3 font-normal text-black outline-none transition focus:border-primary active:border-primary disabled:cursor-default
+              disabled:bg-whiter dark:border-form-strokedark dark:bg-form-input dark:text-white dark:focus:border-primary">{{ form.address.value }}</textarea>
+            </div>
+
+           <div class="flex justify-center w-full">
+              <button type="submit"
+              class="rounded bg-success px-4 py-2 font-medium text-white hover:bg-opacity-90">
+              ذخیره
+            </button>
+           </div>
+          </div>
+        </form>
+      </div>
+    </div>
+    <!-- ====== Form Layout Section End -->
+  </div>
+</main>
+{% endblock content %}

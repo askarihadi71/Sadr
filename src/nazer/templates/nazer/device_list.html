@@ -1,0 +1,128 @@
+{% extends "base/full_base.html" %}
+{% load jalali %}
+{% load static %}
+{% load static_version %}
+
+{% block content %}
+<input type="hidden" id="search_users_url" data-url="{% url 'user:search_users' %}">
+<input type="hidden" id="set_owner_url" data-url="{% url 'nazer:set_owner' %}">
+<input type="hidden" id="clear_owner_url" data-url="{% url 'nazer:Clear_owner' %}">
+<main>
+    <div class="mx-auto max-w-screen-2xl p-4 md:p-6 2xl:p-10">
+    <!-- Breadcrumb Start -->
+    <div class="mb-6 flex flex-col gap-3 sm:flex-row sm:items-center sm:justify-between">
+        <h2 class="text-title-sm font-bold text-black dark:text-white">
+        لیست دستگاه ها
+        </h2>
+        <div class="relative">
+            <form method="get">
+                <button type="submit" class="absolute left-2 top-3 cursor-pointer">
+                    <svg xmlns="http://www.w3.org/2000/svg" fill="none" width="26" height="26" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" >
+                    <path stroke-linecap="round" stroke-linejoin="round" d="m21 21-5.197-5.197m0 0A7.5 7.5 0 1 0 5.196 5.196a7.5 7.5 0 0 0 10.607 10.607Z" />
+                    </svg>
+                </button>
+                
+                <input name="search" type="text" placeholder="جستجو" class="w-full rounded-lg border-[1.5px] border-stroke px-5 py-3 font-normal text-black outline-none transition focus:border-primary active:border-primary disabled:cursor-default disabled:bg-whiter dark:border-form-strokedark dark:bg-form-input dark:text-white dark:focus:border-primary" />
+            </form>
+        </div>
+    </div>
+    <!-- Breadcrumb End -->
+
+    <!-- ====== Table Section Start -->
+    <div class="flex flex-col gap-10">
+        <!-- ====== Table Three Start -->
+        <div class="rounded-sm border border-stroke bg-white px-5 pb-2.5 pt-6 shadow-default dark:border-strokedark dark:bg-boxdark sm:px-7.5 xl:pb-1">
+            <div class="max-w-full overflow-x-auto">
+            <a href="{% url 'nazer:device_create' %}" class="w-fit bg-primary text-white py-2 px-3 rounded-lg mb-2 flex items-center gap-x-2">
+            <span class="w-7">
+                <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="size-6">
+                    <path stroke-linecap="round" stroke-linejoin="round" d="M18 7.5v3m0 0v3m0-3h3m-3 0h-3m-2.25-4.125a3.375 3.375 0 1 1-6.75 0 3.375 3.375 0 0 1 6.75 0ZM3 19.235v-.11a6.375 6.375 0 0 1 12.75 0v.109A12.318 12.318 0 0 1 9.374 21c-2.331 0-4.512-.645-6.374-1.766Z" />
+                </svg>
+            </span>
+            افزودن دستگاه
+            </a>
+            <table class="w-full table-auto">
+                <thead>
+                    <tr class="bg-gray-2 text-center dark:bg-meta-4">
+                        
+                        <th class=" px-4 py-4 font-medium text-black dark:text-white xl:pl-11">
+                        عنوان دستگاه
+                        </th>
+
+                        <th class=" px-4 py-4 font-medium text-black dark:text-white xl:pl-11">
+                            کاربر
+                        </th>
+
+                        <th class=" px-4 py-4 font-medium text-black dark:text-white xl:pl-11">
+                        ایمیل دستگاه
+                        </th>
+                        <th class=" px-4 py-4 font-medium text-black dark:text-white">
+                            توضیحات
+                        </th>
+                        <th class=" px-4 py-4 font-medium text-black dark:text-white">
+                            عملیات
+                        </th>
+                    </tr>
+                </thead>
+                <tbody id="all-device-table-body">
+                
+                {% for device in object_list %}
+                    <tr data-device="{{ device.pk }}" class="hover:bg-gray-200 dark:hover:bg-meta-4  {% if not device.user %} bg-orange-500 dark:bg-orange-500 {% endif %}">
+                        
+                        <td class="table-body-tr" >
+                           {{ device.title }}
+                        </td>
+
+                        <td class="table-body-tr" name="owner-td" >
+                            {% if device.user %}
+                                {{device.user.get_full_name}}-{{device.user.phone}}
+                            {% else %}
+                                فاقد مالک
+                            {% endif %}
+                        </td>
+
+                        <td class="table-body-tr" >
+                            {{ device.email }}
+                        </td>
+                        <td class="table-body-tr" >
+                            {{ device.description }}
+                        </td>
+
+                        <td class="table-body-tr">
+                            <div class="flex items-center gap-x-2 justify-center text-[22px]">
+                                <button data-device="{{device.pk}}" class="remove-owner-btn text-red-500 fa fa-user hover:text-danger {% if not device.user %}hidden{%endif%}"></button>
+                                <button data-device="{{device.pk}}" class="add-owner-btn fa fa-user-plus hover:text-primary {% if device.user %}hidden{%endif%}"></button>
+                                <a href="{% url 'nazer:device_update' device.pk %}" class="hover:text-primary flex">
+                                    <i class="fa fa-edit"></i>
+                                </a>
+
+                                <a class="hover:text-primary" href="{% url 'nazer:device_delete' device.pk %}">
+                                    <i class="fa fa-trash-o"></i>
+                                </a>
+                               
+                            </div>
+                        </td>
+                        
+                       
+                    </tr>
+                {% endfor %}
+
+                
+                </tbody>
+            </table>
+            
+            </div>
+        </div>
+
+     {% include "base/pagination.html" %}
+
+        <!-- ====== Table Three End -->
+    </div>
+    <!-- ====== Table Section End -->
+    </div>
+</main>
+
+{% include "nazer/user_search_modal.html" %}
+<script src="{% static 'nazer/devicelist.js' %}?v={%static_version%}"></script>
+
+{% endblock content %}
